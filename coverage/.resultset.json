@@ -1,0 +1,48 @@
+{
+  "Unit Tests": {
+    "coverage": {
+      "/Users/AndrewDymond/turing/1module/projects/event_manager/lib/event_manager.rb": [
+        1,
+        null,
+        1,
+        null,
+        1,
+        null,
+        1,
+        4,
+        null,
+        null,
+        1,
+        2,
+        null,
+        null,
+        1,
+        2,
+        38,
+        38,
+        null,
+        38,
+        null,
+        38,
+        null,
+        null,
+        null,
+        1,
+        39,
+        2,
+        37,
+        9,
+        28,
+        0,
+        null,
+        null,
+        null,
+        null,
+        1,
+        1,
+        1
+      ]
+    },
+    "timestamp": 1514501379
+  }
+}
