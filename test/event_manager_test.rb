@@ -32,4 +32,16 @@ class EventManagerTest < Minitest::Test
     assert_equal "00123", manager.clean_zipcode("123")
   end
 
+  def test_clean_phone_numbers_works
+    manager = EventManager.new
+
+    assert_equal "3038152020", manager.clean_phone_number("3038152020")
+    assert_equal "3038152020", manager.clean_phone_number(3038152020)
+    assert_equal "3038152020", manager.clean_phone_number("13038152020")
+    assert_equal "bad number", manager.clean_phone_number("23038152020")
+    assert_equal "bad number", manager.clean_phone_number("asdf")
+    assert_equal "bad number", manager.clean_phone_number("1111111111111")
+
+  end
+
 end

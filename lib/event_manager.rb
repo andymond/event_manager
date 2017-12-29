@@ -21,6 +21,17 @@ class EventManager
     "Event Manager initialized"
   end
 
+  def sign_up_times
+    times = contents.map do |row|
+      datetime = row[:regdate].split(/[ \/]/)
+      month, day, year, time = datetime[0], datetime[1], "20#{datetime[2]}", datetime[3]
+
+      datetime = DateTime.strptime("#{year}-#{month}-#{day}T#{time}+07:00", '%Y-%m-%dT%H:%M')
+      datetime.hour
+    end
+   puts times.group_by { |time| time }
+  end
+
   def parse_csv_file
     contents.each do |row|
       id = row[0]
@@ -37,10 +48,22 @@ class EventManager
   def save_thank_you_letters(id, form_letter)
     Dir.mkdir("./lib/output") unless Dir.exists?("./lib/output")
 
-    filename = "output/thanks_#{id}"
+    filename = "./lib/output/thanks_#{id}"
 
     File.open(filename, "w") do |file|
       puts form_letter
+    end
+  end
+
+  def clean_phone_number(number)
+    phone_number = number.to_s.gsub(/[( )-]/, "")
+    if phone_number.length == 10
+      phone_number
+    elsif phone_number.length == 11 && phone_number[0] == "1"
+      phone_number.slice!(0)
+      phone_number
+    else
+      "bad number"
     end
   end
 
@@ -65,4 +88,4 @@ end
 
 manager = EventManager.new
 puts manager.start_message
-manager.parse_csv_file
+manager.sign_up_times
