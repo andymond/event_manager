@@ -22,7 +22,10 @@ class EventManager
       zipcode = clean_zipcode(row[:zipcode])
       legislator_names = legislator_names_by_zipcode(zipcode)
 
-      puts "#{name} #{zipcode} #{legislator_names}"
+      personal_letter = template_letter.gsub("FIRST_NAME", name)
+      personal_letter.gsub!("LEGISLATORS", legislator_names)
+
+      puts personal_letter
     end
   end
 
