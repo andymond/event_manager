@@ -1,6 +1,7 @@
 require "csv"
 require "google/apis/civicinfo_v2"
 require "erb"
+require "pry"
 
 class EventManager
 
@@ -21,15 +22,32 @@ class EventManager
     "Event Manager initialized"
   end
 
-  def sign_up_times
-    times = contents.map do |row|
+  def string_to_date_converter
+    contents.map do |row|
       datetime = row[:regdate].split(/[ \/]/)
       month, day, year, time = datetime[0], datetime[1], "20#{datetime[2]}", datetime[3]
-
       datetime = DateTime.strptime("#{year}-#{month}-#{day}T#{time}+07:00", '%Y-%m-%dT%H:%M')
-      datetime.hour
     end
-   puts times.group_by { |time| time }
+  end
+
+  def sign_up_times
+    string_to_date_converter.map do |date|
+      date.hour
+    end
+  end
+
+  def sign_up_weekdays
+    weekdays = string_to_date_converter.map do |date|
+      date.wday.to_s
+    end.sort
+
+    weekdays = weekdays.map do |weekday|
+      weekday.gsub(/[0-6]/, "0" => "SUN", "1" => "MON",
+                            "2" => "TUES", "3" => "WEDS",
+                            "4" => "THUR", "5" => "FRI",
+                            "6" => "SAT" )
+    end
+    weekdays.group_by { |day| day}
   end
 
   def parse_csv_file
@@ -88,4 +106,5 @@ end
 
 manager = EventManager.new
 puts manager.start_message
-manager.sign_up_times
+#puts manager.string_to_date_converter
+puts manager.sign_up_weekdays
